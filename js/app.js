@@ -145,8 +145,8 @@ var ViewModel = function() {
     var bounds = new google.maps.LatLngBounds();
 
     // Styles the markers
-    var defaultIconColor = 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png';
-    var highlightedIconColor = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
+    var defaultIconColor = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
+    var highlightedIconColor = 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png';
 
     // Handles the list of locations/chosen locations
     self.selectLocations = ko.computed(function() {
