@@ -15,7 +15,7 @@
         <div class="row fill row-fill">
             <div class="col-xs-12 col-sm-3 col-fill">
                 <h6 class="header">Neighborhood Map</h6>
-                <h2 class="header">Los Angeles Restaurants</h2>
+                <h2 class="header">Los Angeles Ice Cream</h2>
                 <p class="description">Los Angeles is known for its mediterranean climate, ethnic diversity, sprawling metropolis, and as a major center of the American entertainment industry. Los Angeles lies in a large coastal basin surrounded on three sides by mountains reaching up to and over 10,000 feet.</p>
 
                 <div class="search-bar">
@@ -27,7 +27,7 @@
                 <div>
                     <ul class="list-group" data-bind="foreach: selectLocations">
                         <a class="link-color" href="#">
-                            <li data-bind="text: author, click: $parent.listLocationSelected">
+                            <li data-bind="text: creamery, click: $parent.listLocationSelected">
                             </li>
                         </a>
                     </ul>
@@ -41,6 +41,7 @@
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.1/knockout-min.js"></script>
+    <script src="js/places.js"></script>
     <script src="js/app.js"></script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?&key=AIzaSyAmEW6PXEQW_QjqjevHPeMP2_HGeLKnXAY&libraries=geometry&v=3&callback=initializeMap" onerror="mapsInitError()">
     </script>
