@@ -3,18 +3,19 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
+    background-color: paleturquoise;
+}
+h1 {
+    font-family: Lobster;
+	font-weight: 500;
 }
 #map {
     width: 100%;
     height: 100%;
     min-height: 100%;
 }
-#flckr-img {
-    width: 200px;
-    height: 150px;
-}
-.link-color {
-    color: black;
+.ice-cream-list {
+    color: navy;
 }
 .header {
     font-weight: 600;
@@ -59,10 +60,6 @@ ul {
         font-size: 16px;
         display: block;
         padding: 3%;
-    }
-    #flckr-img {
-        width: 325px;
-        height: 250px;
     }
     ul {
         list-style: none;

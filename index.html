@@ -7,15 +7,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Neighborhood Map</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Lobster">
     <link rel="stylesheet" href="index.css">
+    <link rel="icon" type="image/png" href="ice-cream.png">
 </head>
 
 <body>
     <div class="container fill">
         <div class="row fill row-fill">
             <div class="col-xs-12 col-sm-3 col-fill">
-                <h6 class="header">Neighborhood Map</h6>
-                <h2 class="header">Los Angeles Ice Cream</h2>
+                <h6 class="header">Los Angeles</h6>
+                <h1 class="header">Ice Cream Map</h1>
                 <p class="description">Los Angeles is known for its mediterranean climate, ethnic diversity, sprawling metropolis, and as a major center of the American entertainment industry. Los Angeles lies in a large coastal basin surrounded on three sides by mountains reaching up to and over 10,000 feet.</p>
 
                 <div class="search-bar">
@@ -26,7 +28,7 @@
 
                 <div>
                     <ul class="list-group" data-bind="foreach: selectLocations">
-                        <a class="link-color" href="#">
+                        <a class="ice-cream-list" href="#">
                             <li data-bind="text: creamery, click: $parent.listLocationSelected">
                             </li>
                         </a>
