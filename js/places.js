@@ -22,7 +22,7 @@ var iceCreamLocations = [{
     }
 },
 {
-    creamery: "Magnoila Bakery",
+    creamery: "Magnolia Bakery",
     iceCreamLocation: "8389 W 3rd St, Los Angeles, CA 90048",
     coordinates: {
         "lat": 34.073152,
