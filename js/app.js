@@ -132,8 +132,8 @@ var ViewModel = function () {
   var self = this;
   var largeInfoWindow = new google.maps.InfoWindow();
   var bounds = new google.maps.LatLngBounds();
-  var defaultIconColor = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
-  var highlightedIconColor = 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png';
+  var defaultIconColor = 'https://maps.google.com/mapfiles/ms/icons/red-dot.png';
+  var highlightedIconColor = 'https://maps.google.com/mapfiles/ms/icons/yellow-dot.png';
 
   self.searchQuery = ko.observable('');
   self.locations = ko.observableArray(iceCreamLocations);
