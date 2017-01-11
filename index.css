@@ -50,6 +50,9 @@ ul {
 .search-input {
     width: 95%;
 }
+#sample-text{
+    width: 400px;
+}
 @media (min-width: 768px) {
     .col-fill {
         height: 100%;

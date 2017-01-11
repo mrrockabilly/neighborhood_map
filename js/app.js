@@ -182,8 +182,10 @@ var ViewModel = function() {
             infowindow.setContent(`
                 <h4>${marker.creamery}</h4>
                 <h6>${marker.address}</h6>
-                <p id="text">Rating on <a id="yelp-url">yelp</a>:
+                <p id="text">Rating on <a id="yelp-url">Yelp</a>:
                 <img id="yelp"></p></div>
+                <h6>Review Snippet: </h6>
+                <div id="sample-text"></div>
                 `);
             getYelpData(marker.creamery, marker.address);
             infowindow.open(map, marker);
@@ -303,8 +305,11 @@ var getYelpData = function(name, addr){
       cache: true,
       dataType: 'jsonp',
       success: function(response) {
+        console.log(response);
         $('#yelp').attr("src", response.businesses[0].rating_img_url);
         $('#yelp-url').attr("href", response.businesses[0].url);
+        console.log(response.businesses[0].snippet_text)
+        $('#sample-text').html(response.businesses[0].snippet_text);
       },
       error: function() {
         $('#text').html('Yelp data error!');
