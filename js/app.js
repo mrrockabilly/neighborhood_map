@@ -2,8 +2,6 @@ var map,
     losAngles;
 var markers = [];
 
-
-// Creates a map and set the centre to Newcastle
 function initializeMap() {
     losAngles = new google.maps.LatLng(-32.929927, 151.773169);
     map = new google.maps.Map(document.getElementById('map'), {
@@ -182,9 +180,14 @@ var ViewModel = function() {
             infowindow.setContent(`
                 <h4>${marker.creamery}</h4>
                 <h6>${marker.address}</h6>
-                <p id="text">Rating on <a id="yelp-url">Yelp</a>:
-                <img id="yelp"></p></div>
-                <h6>Review Snippet: </h6>
+                <div yelp-url>
+                    <p id="text">
+                    <a class="yelp-url">
+                        <img src="yelp-logo.png" alt="Yelp-Logo" style="width:70px;">
+                        <img id="yelp" class="yelp-url"></p></div>
+                    </a> 
+                </div>
+                <h6 id="review-text">Review Snippet: </h6>
                 <div id="sample-text"></div>
                 `);
             getYelpData(marker.creamery, marker.address);
@@ -307,12 +310,13 @@ var getYelpData = function(name, addr){
       success: function(response) {
         console.log(response);
         $('#yelp').attr("src", response.businesses[0].rating_img_url);
-        $('#yelp-url').attr("href", response.businesses[0].url);
+        $('.yelp-url').attr("href", response.businesses[0].url);
         console.log(response.businesses[0].snippet_text)
         $('#sample-text').html(response.businesses[0].snippet_text);
       },
       error: function() {
         $('#text').html('Yelp data error!');
+        $('#review-text').html('');
       }
     };
     $.ajax(ajaxSettings);

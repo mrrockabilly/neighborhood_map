@@ -51,9 +51,13 @@ ul {
     width: 95%;
 }
 #sample-text{
-    width: 400px;
+     width: 200px;
 }
+
 @media (min-width: 768px) {
+    #sample-text{
+         width: 400px;
+    }
     .col-fill {
         height: 100%;
         min-height: 100%;
