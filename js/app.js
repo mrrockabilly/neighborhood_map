@@ -270,7 +270,7 @@ var ViewModel = function() {
 
 var getYelpData = function(name, addr){
     var httpMethod = 'GET';
-    var yelpURL = 'http://api.yelp.com/v2/search/';
+    var yelpURL = 'https://api.yelp.com/v2/search/';
     var randomString = function(length) {
         var str = "";
         var possible = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
