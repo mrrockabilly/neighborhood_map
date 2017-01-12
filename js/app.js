@@ -2,6 +2,15 @@ var map
 var losAngles;
 var markers = [];
 
+var randomString = function (length) {
+  var str = "";
+  var possible = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  for (var i = 0; i < length; i++) {
+    str += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+  return str;
+};
+
 function initializeMap() {
   losAngles = new google.maps.LatLng(34.0522, 118.2437);
   map = new google.maps.Map(document.getElementById('map'), {
@@ -165,26 +174,72 @@ var ViewModel = function () {
     if (infowindow.marker != marker) {
       infowindow.setContent('');
       infowindow.marker = marker;
-      infowindow.setContent(`
+      getYelpData(marker.creamery, marker.address);
+    }
+
+    function getYelpData(name, addr) {
+      var httpMethod = 'GET';
+      var yelpURL = 'https://api.yelp.com/v2/search/';
+      var parameters = {
+        oauth_consumer_key: 'BkCGfK4qtGp7jn0Ch8c2KQ',
+        oauth_token: '0AKP7BszvcZ-z-gxCxxl03UNj3I1Tijz',
+        oauth_nonce: randomString(20),
+        oauth_timestamp: Math.floor(Date.now() / 1000),
+        oauth_signature_method: 'HMAC-SHA1',
+        oauth_version: '1.0',
+        callback: 'cb',
+        term: name,
+        location: addr,
+        limit: 1
+      };
+      var consumerSecret = 'KJcinh1geGFPAtIRVUFlXStm974';
+      var tokenSecret = 'et5do3f5JtQ3l6i3wYOuhdHuyCo';
+      var signature = oauthSignature.generate(httpMethod, yelpURL, parameters, consumerSecret, tokenSecret);
+      parameters.oauth_signature = signature;
+      var ajaxSettings = {
+        url: yelpURL,
+        data: parameters,
+        cache: true,
+        dataType: 'jsonp',
+        success: function (response) {
+          infowindow.setContent(`
                 <h4>${marker.creamery}</h4>
                 <h6>${marker.address}</h6>
                 <div yelp-url>
                     <p id="text">
-                    <a class="yelp-url">
+                    <a class="yelp-url" href="${response.businesses[0].url}">
                         <img src="yelp-logo.png" alt="Yelp-Logo" style="width:70px;">
-                        <img id="yelp" class="yelp-url"></p></div>
+                        <img src="${response.businesses[0].rating_img_url}" id="yelp" class="yelp-url"></p></div>
                     </a> 
                 </div>
                 <h6 id="review-text">Review Snippet: </h6>
-                <div id="sample-text"></div>
+                <div id="sample-text">${response.businesses[0].snippet_text}</div>
                 `);
-      getYelpData(marker.creamery, marker.address);
-      infowindow.open(map, marker);
-      infowindow.addListener('closeclick', function () {
-        infowindow.marker = null;
-        marker.setIcon(defaultIconColor);
-      });
+          infowindow.open(map, marker);
+          infowindow.addListener('closeclick', function () {
+            infowindow.marker = null;
+            marker.setIcon(defaultIconColor);
+          });
+        },
+        error: function () {
+          infowindow.setContent(`
+                <h4>${marker.creamery}</h4>
+                <h6>${marker.address}</h6>
+                <div>YELP ERROR!!!!</div>
+                `);
+          infowindow.open(map, marker);
+          infowindow.addListener('closeclick', function () {
+            infowindow.marker = null;
+            marker.setIcon(defaultIconColor);
+          });
+        }
+      };
+      $.ajax(ajaxSettings);
     }
+
+
+
+
   }
   self.listLocationSelected = function (data) {
     populateInfoWindow(data.marker, largeInfoWindow);
@@ -238,52 +293,59 @@ var ViewModel = function () {
 
   }
 };
-var getYelpData = function (name, addr) {
-  var httpMethod = 'GET';
-  var yelpURL = 'https://api.yelp.com/v2/search/';
-  var randomString = function (length) {
-    var str = "";
-    var possible = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    for (var i = 0; i < length; i++) {
-      str += possible.charAt(Math.floor(Math.random() * possible.length));
-    }
-    return str;
-  };
-  var parameters = {
-    oauth_consumer_key: 'BkCGfK4qtGp7jn0Ch8c2KQ',
-    oauth_token: '0AKP7BszvcZ-z-gxCxxl03UNj3I1Tijz',
-    oauth_nonce: randomString(20),
-    oauth_timestamp: Math.floor(Date.now() / 1000),
-    oauth_signature_method: 'HMAC-SHA1',
-    oauth_version: '1.0',
-    callback: 'cb',
-    term: name,
-    location: addr,
-    limit: 1
-  };
-  var consumerSecret = 'KJcinh1geGFPAtIRVUFlXStm974';
-  var tokenSecret = 'et5do3f5JtQ3l6i3wYOuhdHuyCo';
-  var signature = oauthSignature.generate(httpMethod, yelpURL, parameters, consumerSecret, tokenSecret);
-  parameters.oauth_signature = signature;
-  var ajaxSettings = {
-    url: yelpURL,
-    data: parameters,
-    cache: true,
-    dataType: 'jsonp',
-    success: function (response) {
-      console.log(response);
-      $('#yelp').attr("src", response.businesses[0].rating_img_url);
-      $('.yelp-url').attr("href", response.businesses[0].url);
-      console.log(response.businesses[0].snippet_text)
-      $('#sample-text').html(response.businesses[0].snippet_text);
-    },
-    error: function () {
-      $('#text').html('Yelp data error!');
-      $('#review-text').html('');
-    }
-  };
-  $.ajax(ajaxSettings);
-}
+
+
+
+// var getYelpData = function (name, addr) {
+//   var httpMethod = 'GET';
+//   var yelpURL = 'https://api.yelp.com/v2/search/';
+//   var randomString = function (length) {
+//     var str = "";
+//     var possible = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+//     for (var i = 0; i < length; i++) {
+//       str += possible.charAt(Math.floor(Math.random() * possible.length));
+//     }
+//     return str;
+//   };
+//   var parameters = {
+//     oauth_consumer_key: 'BkCGfK4qtGp7jn0Ch8c2KQ',
+//     oauth_token: '0AKP7BszvcZ-z-gxCxxl03UNj3I1Tijz',
+//     oauth_nonce: randomString(20),
+//     oauth_timestamp: Math.floor(Date.now() / 1000),
+//     oauth_signature_method: 'HMAC-SHA1',
+//     oauth_version: '1.0',
+//     callback: 'cb',
+//     term: name,
+//     location: addr,
+//     limit: 1
+//   };
+//   var consumerSecret = 'KJcinh1geGFPAtIRVUFlXStm974';
+//   var tokenSecret = 'et5do3f5JtQ3l6i3wYOuhdHuyCo';
+//   var signature = oauthSignature.generate(httpMethod, yelpURL, parameters, consumerSecret, tokenSecret);
+//   parameters.oauth_signature = signature;
+//   var ajaxSettings = {
+//     url: yelpURL,
+//     data: parameters,
+//     cache: true,
+//     dataType: 'jsonp',
+//     success: function (response) {
+//       console.log(response);
+//       $('#yelp').attr("src", response.businesses[0].rating_img_url);
+//       $('.yelp-url').attr("href", response.businesses[0].url);
+//       console.log(response.businesses[0].snippet_text)
+//       $('#sample-text').html(response.businesses[0].snippet_text);
+//     },
+//     error: function () {
+//       $('#text').html('Yelp data error!');
+//       $('#review-text').html('');
+//     }
+//   };
+//   $.ajax(ajaxSettings);
+// }
+
+
+
+
 
 var mapsInitError = function () {
   alert("Unable to load map");
