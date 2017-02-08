@@ -11,5 +11,14 @@ https://mrrockabilly.github.io/neighborhood_map/
 
 Knockout.JS, Google and Yelp APIs.
 
+## Running Locally
+
+```
+git clone https://github.com/mrrockabilly/neighborhood_map
+cd neighborhood_map
+open ./index.html
+```
+
+
 
 
